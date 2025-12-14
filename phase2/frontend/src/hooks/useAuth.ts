@@ -70,7 +70,7 @@ export const useAuth = (): UseAuthReturn => {
       const response = await apiClient.register({ email, password });
 
       if (response.success && response.data) {
-        setUser(response.data);
+        setUser(response.data.user);
         setIsAuthenticated(true);
       } else {
         setError(response.error?.message || 'Registration failed');

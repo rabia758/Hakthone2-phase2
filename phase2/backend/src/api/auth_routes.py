@@ -12,7 +12,7 @@ import re
 
 class LoginRequest(BaseModel):
     email: str
-    password: str
+    password:str|int
 
 router = APIRouter()
 

@@ -18,8 +18,10 @@ const SignupPage = () => {
     e.preventDefault();
     setError('');
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
+    // Validate email format
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      setError('Please enter a valid email address');
       return;
     }
 
@@ -39,6 +41,11 @@ const SignupPage = () => {
     }
     if (!/(?=.*\d)/.test(password)) {
       setError('Password must contain at least one digit');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
       return;
     }
 
