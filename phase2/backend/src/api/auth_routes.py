@@ -12,7 +12,7 @@ import re
 
 class LoginRequest(BaseModel):
     email: str
-    password:str|int
+    password: str
 
 router = APIRouter()
 
@@ -31,6 +31,8 @@ def register(request: Request, user_create: UserCreate, db: Session = Depends(ge
     password = user_create.password
     if len(password) < 8:
         raise HTTPException(status_code=400, detail="Password must be at least 8 characters long")
+    if len(password) > 72:
+        raise HTTPException(status_code=400, detail="Password cannot be longer than 72 characters")
     if not re.search(r"[A-Z]", password):
         raise HTTPException(status_code=400, detail="Password must contain at least one uppercase letter")
     if not re.search(r"[a-z]", password):
@@ -82,6 +84,8 @@ def login(request: Request, login_data: LoginRequest, db: Session = Depends(get_
     # Validate password
     if len(password) < 1:
         raise HTTPException(status_code=400, detail="Password cannot be empty")
+    if len(password) > 72:
+        raise HTTPException(status_code=400, detail="Password cannot be longer than 72 characters")
 
     user = UserService.authenticate_user(db, email, password)
     if not user:
